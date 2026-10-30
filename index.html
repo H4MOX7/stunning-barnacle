@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إلى ملك ♥</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Reem+Kufi:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0d0912;
+            background-image: radial-gradient(circle at center, #1a1124 0%, #0d0912 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            font-family: 'Cairo', sans-serif;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px 0;
+        }
+
+        /* واجهة الدخول الهادية */
+        .gateway-wrapper {
+            position: relative;
+            z-index: 10;
+            width: 90%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.8s ease;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 40px 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 182, 193, 0.15);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            width: 100%;
+            text-align: center;
+        }
+
+        h2 {
+            font-family: 'Reem Kufi', sans-serif;
+            margin-bottom: 25px;
+            font-size: 24px;
+            color: #ffb6c1;
+            font-weight: 400;
+        }
+
+        .input-group { position: relative; margin-bottom: 25px; }
+
+        input {
+            width: 100%;
+            padding: 15px 20px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.4);
+            color: #fff;
+            font-size: 18px;
+            text-align: center;
+            outline: none;
+            transition: 0.4s;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        input:focus { border-color: #ffb6c1; box-shadow: 0 0 15px rgba(255, 182, 193, 0.2); }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            border-radius: 50px;
+            border: none;
+            background: rgba(255, 182, 193, 0.2);
+            color: #ffb6c1;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.4s;
+            font-family: 'Cairo', sans-serif;
+            border: 1px solid rgba(255, 182, 193, 0.3);
+        }
+
+        button:hover { background: rgba(255, 182, 193, 0.4); color: #fff; }
+
+        /* =========================================
+           المحتوى الأساسي
+           ========================================= */
+        #main-content {
+            display: none;
+            width: 95%;
+            max-width: 600px;
+            background: rgba(20, 15, 25, 0.6);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            padding: 40px 25px;
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.7);
+            text-align: center;
+            transform: scale(0.95) translateY(20px);
+            opacity: 0;
+            transition: all 1s ease;
+            position: relative;
+            z-index: 20;
+            margin: 20px 0;
+        }
+
+        #main-content.show { transform: scale(1) translateY(0); opacity: 1; }
+
+        .title-name {
+            font-family: 'Reem Kufi', sans-serif;
+            font-size: 45px;
+            font-weight: 700;
+            color: #ffb6c1;
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+        }
+
+        /* تصميم المربعات */
+        .message-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 182, 193, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+            font-size: 18px;
+            line-height: 1.8;
+            color: #e0e0e0;
+            font-weight: 400;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 1s forwards;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        /* الدايرة اللي فيها القلوب والاسم */
+        .circle-separator {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 30px 0;
+            position: relative;
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+        }
+
+        .heart-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: rgba(255, 182, 193, 0.05);
+            border: 1px dashed rgba(255, 182, 193, 0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 20px rgba(255, 182, 193, 0.1);
+            animation: rotateSlow 20s linear infinite;
+        }
+
+        .heart-circle p {
+            font-size: 12px;
+            color: #ffb6c1;
+            letter-spacing: 2px;
+            margin-top: 5px;
+            animation: rotateSlowReverse 20s linear infinite;
+        }
+
+        .hearts-text {
+            font-size: 16px;
+            color: #ff4b2b;
+            line-height: 1.2;
+            font-weight: 900;
+            text-align: center;
+            animation: rotateSlowReverse 20s linear infinite;
+        }
+
+        /* أزرار القرار */
+        .confession-box {
+            margin-top: 40px;
+            padding: 20px;
+            background: rgba(255, 182, 193, 0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 182, 193, 0.2);
+            opacity: 0;
+            animation: fadeUp 1s forwards;
+            animation-delay: 13s; /* تأخير كبير عشان الكلام كله يظهر */
+        }
+
+        .confession-box p { font-size: 20px; font-weight: 700; color: #ffb6c1; line-height: 1.6; }
+
+        .decision-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+            opacity: 0;
+            animation: fadeUp 1s forwards;
+            animation-delay: 14.5s;
+        }
+
+        .btn-yes, .btn-no {
+            padding: 12px 20px;
+            border-radius: 50px;
+            border: 1px solid;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.4s;
+            font-family: 'Cairo', sans-serif;
+            width: 45%;
+            background: transparent;
+        }
+
+        .btn-yes { border-color: #38ef7d; color: #38ef7d; }
+        .btn-yes:hover { background: rgba(56, 239, 125, 0.1); }
+
+        .btn-no { border-color: #ef473a; color: #ef473a; }
+        .btn-no:hover { background: rgba(239, 71, 58, 0.1); }
+
+        .result-screen { display: none; text-align: center; opacity: 0; animation: fadeIn 1.5s forwards; }
+        
+        .result-yes-text { font-size: 50px; font-weight: 900; color: #ffb6c1; margin-top: 15px; text-shadow: 0 0 20px rgba(255, 182, 193, 0.5); animation: pulse 2s infinite; }
+        .sad-emoji { font-size: 70px; margin: 15px auto; display: block; animation: float 3s infinite ease-in-out; }
+
+        /* الحركات */
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { to { opacity: 1; } }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        @keyframes rotateSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes rotateSlowReverse { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
+
+        /* تأخير ظهور المربعات والفواصل */
+        .msg-1 { animation-delay: 1s; } .sep-1 { animation-delay: 1.8s; }
+        .msg-2 { animation-delay: 2.6s; } .sep-2 { animation-delay: 3.4s; }
+        .msg-3 { animation-delay: 4.2s; } .sep-3 { animation-delay: 5s; }
+        .msg-4 { animation-delay: 5.8s; } .sep-4 { animation-delay: 6.6s; }
+        .msg-5 { animation-delay: 7.4s; } .sep-5 { animation-delay: 8.2s; }
+        .msg-6 { animation-delay: 9s; } .sep-6 { animation-delay: 9.8s; }
+        .msg-7 { animation-delay: 10.6s; } .sep-7 { animation-delay: 11.4s; }
+        .msg-8 { animation-delay: 12.2s; } .sep-8 { animation-delay: 13s; }
+        .msg-9 { animation-delay: 13.8s; } .sep-9 { animation-delay: 14.6s; }
+        .msg-10 { animation-delay: 15.4s; }
+
+    </style>
+</head>
+<body>
+
+    <!-- بوابة الدخول -->
+    <div class="gateway-wrapper" id="gateway">
+        <div class="glass-panel">
+            <h2>دخول خاص لـ ملك</h2>
+            <div class="input-group">
+                <input type="password" id="password" placeholder="كلمة السر...">
+            </div>
+            <button onclick="checkPassword()">دخول</button>
+        </div>
+    </div>
+
+    <!-- المحتوى الأساسي -->
+    <div id="main-content">
+        <div id="love-section">
+            <div class="title-name">ملك</div>
+            
+            <!-- 1 -->
+            <div class="message-box msg-1">أنا من أول مرة عرفت فيها عنك، حسيت إن في حاجة جوايا بتشدني ليكي.</div>
+            
+            <!-- فاصل القلوب -->
+            <div class="circle-separator sep-1">
+                <div class="heart-circle">
+                    <div class="hearts-text">♥♥<br>♥♥</div>
+                    <p>ملك</p>
+                </div>
+            </div>
+
+            <!-- 2 -->
+            <div class="message-box msg-2">كلام سارة عن طيبتك وأخلاقك خلاني أشوف فيكي إنسانة مختلفة.</div>
+            
+            <div class="circle-separator sep-2">
+                <div class="heart-circle">
+                    <div class="hearts-text">♥ ♥<br>♥ ♥</div>
+                    <p>ملك</p>
+                </div>
+            </div>
+
+            <!-- 3 -->
+            <div class="message-box msg-3">أنا حبيتك لانك شخص حنون و طيب و كلك اخلاق و محترمة.</div>
+            
+            <div class="circle-separator sep-3">
+                <div class="heart-circle">
+                    <div class="hearts-text">♥♥<br>♥♥</div>
+                    <p>ملك</p>
+                </div>
+            </div>
+
+            <!-- 4 -->
+            <div class="message-box msg-4">الهدوء اللي في شخصيتك بيديني راحة نفسية غريبة.</div>
+            
+            <div class="circle-separator sep-4">
+                <div class="heart-circle">
+                    <div class="hearts-text">♥ ♥<br>♥ ♥</div>
+                    <p>ملك</p>
+                </div>
+            </div>
+
+            <!-- 5 -->
+            <div class="message-box msg-5">حبيت أعترفلك بصراحة، أنا حبيت أقولك اللي جوايا، وده كلام من قلبي.</div>
+            
+            <div class="circle-separator sep-5">
+                <div class="heart-circle">
+                    <div class="hearts-text">♥♥<br>♥♥</div>
+                    <p>ملك</p>
+                </div>
+            </div>
+
+            <!-- 6 -->
+            <div class="message-box msg-6">أنا حاولت أهرب من التفكير، بس قلبي كان بيسابقني ويشدني ليكي أكتر.</div>
+            
+            <div class="circle-separator sep-6">
+                <div class="heart-circle">
+                    <div class="hearts-text">♥ ♥<br>♥ ♥</div>
+                    <p>ملك</p>
+                </div>
+            </div>
+
+            <!-- 7 -->
+            <div class="message-box msg-7">إنتي بقيتي في تفكيري على طول، وده مش بإيدي.</div>
+            
+            <div class="circle-separator sep-7">
+                <div class="heart-circle">
+                    <div class="hearts-text">♥♥<br>♥♥</div>
+                    <p>ملك</p>
+                </div>
+            </div>
+
+            <!-- 8 -->
+            <div class="message-box msg-8">مش عارف إيه السر فيكي، بس أنا حاسس إنك شخص يستاهل كل الحب.</div>
+            
+            <div class="circle-separator sep-8">
+                <div class="heart-circle">
+                    <div class="hearts-text">♥ ♥<br>♥ ♥</div>
+                    <p>ملك</p>
+                </div>
+            </div>
+
+            <!-- 9 -->
+            <div class="message-box msg-9">أنا كتبت الكلام ده عشان أعبر عن إعجابي بيكي، بكل هدوء وصدق.</div>
+            
+            <div class="circle-separator sep-9">
+                <div class="heart-circle">
+                    <div class="hearts-text">♥♥<br>♥♥</div>
+                    <p>ملك</p>
+                </div>
+            </div>
+
+            <!-- 10 -->
+            <div class="message-box msg-10">أتمنى إنك تقبلي اعتذاري لو الكلام اتأخر، وتقبلي مشاعري دي.</div>
+
+            <div class="confession-box">
+                <p>هو بصراحة أنا حبيت أعترفلك 🥹<br>وده كلام من قلبي مش مجرد كلام</p>
+            </div>
+
+            <div class="decision-buttons" id="decision-buttons">
+                <button class="btn-yes" onclick="showResult('yes')">1: موافقة</button>
+                <button class="btn-no" onclick="showResult('no')">2: لا مش موافقة</button>
+            </div>
+        </div>
+
+        <!-- شاشة الموافقة -->
+        <div id="result-yes" class="result-screen">
+            <div style="font-size: 80px;">❤️✨</div>
+            <p style="margin-top: 15px; font-size: 22px; color: #ffb6c1;">مش مصدق نفسي والله..</p>
+            <p class="result-yes-text">"بحبك"</p>
+            <p style="font-size: 40px; margin-top: 15px;">✍️</p>
+        </div>
+
+        <!-- شاشة الرفض -->
+        <div id="result-no" class="result-screen">
+            <span class="sad-emoji">💔😢🥀</span>
+            <p style="margin-top: 15px; font-size: 18px;">أنا حاولت بصراحة وكنت بحاول أخليكي تتعودي عليا..</p>
+            <p style="font-size: 20px;">بس عادي 🙇</p>
+            <p style="font-size: 30px; margin-top: 15px; color: #ffb6c1;">سلام..</p>
+            <p style="font-size: 45px; color: #ff4b2b; margin-top: 10px; text-shadow: 0 0 20px rgba(255, 75, 43, 0.8);">"بحبك"</p>
+        </div>
+    </div>
+
+    <script>
+        function checkPassword() {
+            const pass = document.getElementById('password').value;
+            const gateway = document.getElementById('gateway');
+            const mainContent = document.getElementById('main-content');
+
+            if (pass === 'ملك') {
+                gateway.style.transform = 'scale(0.9)';
+                gateway.style.opacity = '0';
+                
+                setTimeout(() => {
+                    gateway.style.display = 'none';
+                    mainContent.style.display = 'block';
+                    setTimeout(() => mainContent.classList.add('show'), 50);
+                }, 800);
+            } else {
+                gateway.style.transform = 'translateX(-10px)';
+                setTimeout(() => gateway.style.transform = 'translateX(10px)', 100);
+                setTimeout(() => gateway.style.transform = 'translateX(-10px)', 200);
+                setTimeout(() => gateway.style.transform = 'translateX(0)', 300);
+                document.getElementById('password').value = '';
+                document.getElementById('password').placeholder = 'كلمة السر غلط، جرب تاني!';
+            }
+        }
+
+        function showResult(choice) {
+            document.getElementById('love-section').style.display = 'none';
+            
+            if (choice === 'yes') {
+                document.getElementById('result-yes').style.display = 'block';
+            } else {
+                document.getElementById('result-no').style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>
